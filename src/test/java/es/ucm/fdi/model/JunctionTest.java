@@ -45,16 +45,20 @@ public class JunctionTest {
 		j2.avanza();
 		r1.avanza();
 		r2.avanza();
-		assertEquals(j2.toStringTest(), "(r1, green, [v1, v2]) (r2, red, [v3, v4]) ");
+
+		// IMPORTANTE: siempre primero "esperado" y luego "obtenido"
+		assertEquals("(r1,green,[v1,v2]),(r2,red,[v3,v4])", j2.queuesToString());
 		j2.avanza();
-		assertEquals(j2.toStringTest(), "(r1, red, [v2]) (r2, green, [v3, v4]) ");
-		assertEquals(v1.toString(), "id = v1, pos = 0, velActual = 0, km = 20");
+		assertEquals("(r1,red,[v2]),(r2,green,[v3,v4])", j2.queuesToString());
+		assertEquals("id = v1, pos = 0, velActual = 0, km = 20", v1.toString());
+		// orden "esperado vs obtenido" mal en todos los demás asserts :-(
+
 		j2.avanza();
-		assertEquals(j2.toStringTest(), "(r1, green, [v2]) (r2, red, [v4]) ");
+		assertEquals(j2.queuesToString(), "(r1,green,[v2]),(r2,red,[v4])");
 		j2.avanza();
-		assertEquals(j2.toStringTest(), "(r1, red, []) (r2, green, [v4]) ");
+		assertEquals(j2.queuesToString(), "(r1,red,[]),(r2,green,[v4])");
 		j2.avanza();
-		assertEquals(j2.toStringTest(), "(r1, green, []) (r2, red, []) ");
+		assertEquals(j2.queuesToString(), "(r1,green,[]),(r2,red,[])");
 	}
 
 }

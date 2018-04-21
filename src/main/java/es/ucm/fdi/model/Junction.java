@@ -52,22 +52,18 @@ private class IncomingRoad{
 	 */
 
 	public String toString(){
-		String s = "";
-		s = s + "(" + road.getId() + ",";
-		if(incoming.get(semaforo).equals(this)){
-			s += "green";
-		}
-		else{
-			s+= "red";
-		}
-		s+=",[";
-		List<String> list = new ArrayList<String>();
+		StringBuilder sb = new StringBuilder();
+		sb.append("(" + road.getId() + ",");
+		sb.append(incoming.get(semaforo).equals(this) ?
+			"green" : "red");
+		sb.append(",[");
+		List<String> list = new ArrayList<>();
 		for(Vehicle v: cola){
 			list.add(v.getId());
 		}
-		s += String.join(",", list);
-		s += "])";
-		return s;
+		sb.append(String.join(",", list));
+		sb.append("])");
+		return sb.toString();
 		
 	}
 }
@@ -118,12 +114,7 @@ public String getReportHeader(){
 }
 @Override
 public void fillReportDetails(Map<String, String> out) {
-List<String> list = new ArrayList<String>();
-	for(IncomingRoad ir: incoming){
-		list.add(ir.toString());
-	}
-	String colas = String.join(",", list);
-	out.put("queues", colas);
+	out.put("queues", queuesToString());
 }
 /**
  * Añade una nueva carretera entrante al cruce
@@ -145,12 +136,12 @@ public void addNewOutgoingRoad(Road road){
 /**
  * Metodo toString de la clase Junction, usado para hacer pruebas jUnit.
  */
-public String toStringTest(){
-	String s = "";
-	for (IncomingRoad ir: incoming){
-		s+= (ir.toString() + " ");
+String queuesToString(){
+	List<String> list = new ArrayList<>();
+	for(IncomingRoad ir: incoming){
+		list.add(ir.toString());
 	}
-	return s;
+	return String.join(",", list);
 }
 @Override
 public String toString(){
